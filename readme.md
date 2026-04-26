@@ -11,7 +11,7 @@ Kurulumu sıfırdan yapmak için terminali açın ve aşağıdaki blokları sır
 Proje dosyalarını çekiyoruz ve başlatıcı simgelerini masaüstüne taşıyoruz.
 
 ```bash
-cd ~/Masaüstü
+cd $(xdg-user-dir DESKTOP)
 git clone https://github.com/ilhanakilli/okulzili.git zil
 cd zil
 mv *.desktop ..
