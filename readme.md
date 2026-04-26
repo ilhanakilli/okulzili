@@ -93,4 +93,34 @@ Gecikme: otostart.sh içerisinde varsayılan olarak 5 saniye bekleme (sleep 5) t
 ```Bash
 chmod +x $(xdg-user-dir DESKTOP)/zil/otostart.sh
 ```
+---
 
+## 📖 Kullanım Kılavuzu
+
+### 🎵 Ses ve Melodi Yönetimi
+* **Okul Zilleri:** Tüm zil melodileri (Öğrenci, Öğretmen ve Çıkış) `zil/sesler/zilmelodileri/` dizininde tutulur. Uygulama bu dizindeki uygun anonslu dosyaları otomatik olarak kullanır.
+* **Marşlar ve Sirenler:** `zil/sesler/marslar/` dizinine eklenen ses dosyaları, **Tören Modu** aktif edildiğinde sol menüde kalıcı bir liste olarak görünür ve hızlı erişim sağlar.
+
+### 💾 USB Bellek ile Medya Yönetimi
+Uygulama, takılan USB bellek içerisinde aşağıdaki klasör yapısını otomatik olarak tarar:
+
+| Klasör Adı | İşlev | Çalışma Mantığı |
+| :--- | :--- | :--- |
+| `muzikyayini` | Teneffüs Müziği | Teneffüs saatlerinde bu dizindeki müzikler sırayla çalınır. |
+| `slayt` | Görsel Sunum | Aktif edildiğinde bu dizindeki resimleri sırayla gösterir. |
+| `toren` | Etkinlik Dosyaları | Tören esnasında ihtiyaç duyulan özel etkinlik müzikleri. |
+
+#### 🖼️ Slayt Gösterisi
+* `slayt` klasörü içindeki görseller (JPG, PNG) sırayla ekrana yansıtılır.
+* Geçiş hızı **Ayarlar** sayfasından saniye bazlı olarak değiştirilebilir.
+
+#### 🏛️ Tören Modu
+* **Hızlı Erişim:** Sol menüde her zaman `zil/sesler/marslar/` dizinindeki sabit dosyalar listelenir. USB takılıysa `toren` klasöründeki dosyalara da bu mod üzerinden ulaşılabilir.
+* **Zil İptali:** Mod aktif olduğu sürece planlanmış tüm ziller otomatik olarak susturulur.
+
+#### ⚠️ ÖNEMLİ: USB Belleği Güvenli Çıkarma
+Veri kaybını ve sistem hatalarını önlemek için:
+1. Slayt veya müzik yayını devam ediyorsa arayüzden **durdurun**.
+2. Fiziksel olarak belleği çekmeden önce uygulamanın aktif olarak dosyayı okumadığından emin olun. Kullanım sırasında çıkarılan bellekler dosya sistemine zarar verebilir.
+
+---
