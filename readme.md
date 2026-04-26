@@ -53,3 +53,44 @@ echo "$USER ALL=(ALL) NOPASSWD: /usr/bin/timedatectl" | sudo tee /etc/sudoers.d/
 - **Arayüz:** CustomTkinter (Modern GUI)
 - **Ses Motoru:** VLC Lib (Yüksek kaliteli ses işleme)
 - **Uyumluluk:** Raspberry Pi 5 (Wayland/PipeWire destekli) ve Linux Dağıtımları
+
+- ## 🕒 Sistem Açılışında Otomatik Başlatma
+
+Uygulamanın bilgisayar açıldığında otomatik olarak devreye girmesi için aşağıdaki adımları uygulayın. Bu yöntem hem **Linux Mint (XFCE)** hem de **Raspberry Pi 5** ile tam uyumludur.
+
+### 🛠 Otomatik Başlatıcıyı Oluşturma
+Terminali açın ve aşağıdaki komut bloğunu olduğu gibi kopyalayıp yapıştırın. Bu komut, sistem diliniz ne olursa olsun Masaüstü dizininizi bulur ve gerekli başlatıcıyı sisteme kaydeder:
+
+```bash
+mkdir -p ~/.config/autostart
+cat <<EOF > ~/.config/autostart/okulzili.desktop
+[Desktop Entry]
+Type=Application
+Name=Okul Zili Otomatik Başlatıcı
+Comment=Sistem açılışında okul zilini başlatır
+Exec=sh -c 'cd "\$(xdg-user-dir DESKTOP)/zil" && chmod +x otostart.sh && ./otostart.sh'
+Terminal=false
+X-GNOME-Autostart-enabled=true
+EOF
+```
+💡 Alternatif Yöntem (Arayüz ile)
+Eğer komut kullanmak istemiyorsanız:
+
+Ayarlar > Oturum ve Başlangıç > Uygulama Otomatik Başlat sekmesine gidin.
+
+Ekle butonuna tıklayın.
+
+Komut (Command) kısmına aşağıdakini yapıştırın:
+
+```Bash
+sh -c 'cd "$(xdg-user-dir DESKTOP)/zil" && ./otostart.sh'
+```
+⚠️ Önemli Hatırlatmalar
+Gecikme: otostart.sh içerisinde varsayılan olarak 5 saniye bekleme (sleep 5) tanımlıdır. Bu, sistemin ses ve görüntü sürücülerinin tam yüklenmesini sağlar.
+
+İzinler: Eğer uygulama açılmazsa, terminalden şu komutla izinleri tazeleyin:
+
+```Bash
+chmod +x $(xdg-user-dir DESKTOP)/zil/otostart.sh
+```
+
