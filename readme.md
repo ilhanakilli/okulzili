@@ -93,34 +93,52 @@ Gecikme: otostart.sh içerisinde varsayılan olarak 5 saniye bekleme (sleep 5) t
 ```Bash
 chmod +x $(xdg-user-dir DESKTOP)/zil/otostart.sh
 ```
----
-
 ## 📖 Kullanım Kılavuzu
 
+### ⏰ Saat ve Program Ayarları
+* **Ders Kapasitesi:** Günlük **15 saate kadar** ders girişi yapılabilir.
+* **Öğle Arası:** Tanımlanan teneffüsler arasından istenilen saat "Öğle Arası" olarak işaretlenebilir ve ekranda bu şekilde belirtilir.
+* **Esnek Takvim:** Zil saatleri **gün bazlı** (her güne ayrı) veya **haftalık** (tüm hafta aynı) olarak atanabilir.
+
+### 🖥️ Ana Panel ve Sistem Takibi
+Ana pano, sistemin durumu hakkında anlık bilgi sunan bir kontrol merkezidir:
+
+* **Merkezi Sayaç:** Bir sonraki zilin çalmasına kalan süre ana odak olarak saniye saniye geri sayar.
+* **Bilgi Ekranı:** O anki ders bilgisi, güncel tarih ve saat bilgisi sürekli takip edilebilir.
+* **Yan Panel (Hızlı Erişim):** Sistem yönetimi için şu butonlar yer alır:
+    * **Siren:** Acil durumlar için anlık yüksek sesli siren tetikleyici.
+    * **Tören Modu:** Özel etkinlikler için zil sistemini askıya alan mod.
+    * **Ayarlar:** Sistem yapılandırma sayfasına hızlı geçiş.
+    * **Mod Anahtarları:** Slayt Gösterisi ve Müzik Yayını için bağımsız Aktif/Pasif butonları.
+    * **Zil Sistemi:** Tüm zil programını tek tuşla pasif veya aktif hale getirme.
+    * **Ses Kontrolü:** Sistem ana ses seviyesi için slider (kaydırıcı) ayarı.
+    * **USB Güvenli Çıkar:** Belleği yazılımsal olarak ayırma butonu.
+
 ### 🎵 Ses ve Melodi Yönetimi
-* **Okul Zilleri:** Tüm zil melodileri (Öğrenci, Öğretmen ve Çıkış) `zil/sesler/zilmelodileri/` dizininde tutulur. Uygulama bu dizindeki uygun anonslu dosyaları otomatik olarak kullanır.
-* **Marşlar ve Sirenler:** `zil/sesler/marslar/` dizinine eklenen ses dosyaları, **Tören Modu** aktif edildiğinde sol menüde kalıcı bir liste olarak görünür ve hızlı erişim sağlar.
+* **Okul Zilleri:** Tüm zil melodileri `zil/sesler/zilmelodileri/` dizininde tutulur. Uygulama bu dizindeki anonslu dosyaları otomatik eşleştirir.
+* **Marşlar ve Sirenler:** `zil/sesler/marslar/` dizinine eklenen sesler, **Tören Modu** aktif edildiğinde sol menüde kalıcı bir liste olarak görünür.
 
 ### 💾 USB Bellek ile Medya Yönetimi
-Uygulama, takılan USB bellek içerisinde aşağıdaki klasör yapısını otomatik olarak tarar:
+Uygulama, takılan USB içerisindeki şu klasör yapısını otomatik tarar:
 
 | Klasör Adı | İşlev | Çalışma Mantığı |
 | :--- | :--- | :--- |
 | `muzikyayini` | Teneffüs Müziği | Teneffüs saatlerinde bu dizindeki müzikler sırayla çalınır. |
 | `slayt` | Görsel Sunum | Aktif edildiğinde bu dizindeki resimleri sırayla gösterir. |
-| `toren` | Etkinlik Dosyaları | Tören esnasında ihtiyaç duyulan özel etkinlik müzikleri. |
+| `toren` | Etkinlik Dosyaları | Tören modunda erişilebilen özel etkinlik müzikleri. |
 
 #### 🖼️ Slayt Gösterisi
-* `slayt` klasörü içindeki görseller (JPG, PNG) sırayla ekrana yansıtılır.
-* Geçiş hızı **Ayarlar** sayfasından saniye bazlı olarak değiştirilebilir.
+* `slayt` klasörü içindeki görseller (JPG, PNG) sırayla yansıtılır.
+* Geçiş hızı **Ayarlar** sayfasından saniye bazlı değiştirilebilir.
 
 #### 🏛️ Tören Modu
-* **Hızlı Erişim:** Sol menüde her zaman `zil/sesler/marslar/` dizinindeki sabit dosyalar listelenir. USB takılıysa `toren` klasöründeki dosyalara da bu mod üzerinden ulaşılabilir.
+* **Hızlı Erişim:** Sol menüde her zaman `zil/sesler/marslar/` dizinindeki sabit dosyalar listelenir. USB takılıysa `toren` klasöründeki dosyalara da bu panelden ulaşılabilir.
 * **Zil İptali:** Mod aktif olduğu sürece planlanmış tüm ziller otomatik olarak susturulur.
 
 #### ⚠️ ÖNEMLİ: USB Belleği Güvenli Çıkarma
-Veri kaybını ve sistem hatalarını önlemek için:
-1. Slayt veya müzik yayını devam ediyorsa arayüzden **durdurun**.
-2. Fiziksel olarak belleği çekmeden önce uygulamanın aktif olarak dosyayı okumadığından emin olun. Kullanım sırasında çıkarılan bellekler dosya sistemine zarar verebilir.
+Veri kaybını ve sistem donmalarını önlemek için:
+1. Slayt gösterisi veya müzik yayını devam ediyorsa yan panelden **durdurun**.
+2. Fiziksel olarak belleği çekmeden önce yan paneldeki **"USB'yi Güvenli Çıkar"** butonuna basın.
 
----
+### 🖥️ Ekran ve Çözünürlük
+* **Optimize Edilen Çözünürlük:** Uygulama arayüzü **1080p (1920x1080)** standartlarına göre tasarlanmıştır.
