@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Okul Zili V3
+Comment=Okul Zili Baslatici
+# Dosyanın olduğu klasörü bulur ve otostart.sh betiğini çalıştırır:
+Exec=sh -c 'cd "$(dirname "$0")/zil" && chmod +x otostart.sh && ./otostart.sh'
+Icon=alarm-clock
+Terminal=false
+Type=Application
+Categories=Utility;

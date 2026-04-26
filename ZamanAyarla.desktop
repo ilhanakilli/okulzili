@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Zaman Ayarla
+Comment=Sistem Zamanını Manuel Ayarla
+# Bulunduğu dizini (Masaüstü) tespit eder ve içindeki zil klasörüne girip venv ile çalıştırır:
+Exec=sh -c 'cd "$(dirname "$0")/zil" && ./venv/bin/python3 zaman_ayarla.py'
+Icon=preferences-system-time
+Terminal=false
+Type=Application

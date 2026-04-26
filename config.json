@@ -1,0 +1,685 @@
+{
+    "system_enabled": true,
+    "theme": "koyu",
+    "school_name": "KONURALP ORTAOKULU",
+    "announcement": "KONURALP ORTAOKULU",
+    "font_sizes": {
+        "clock": 140,
+        "timer": 320,
+        "date": 60,
+        "announcement": 45,
+        "lesson": 80,
+        "slide_info": 100,
+        "slide_bg": 100
+    },
+    "custom_colors": {
+        "clock": "#95a5a6",
+        "announcement": "#95a5a6",
+        "date": "#a29bfe",
+        "timer": "#c0392b",
+        "lesson": "#a29bfe",
+        "slide_info": "#d35400",
+        "slide_bg": "#000000"
+    },
+    "current_sounds": {
+        "student": "Baksana Talihe öğrenci anonslu.mp3",
+        "teacher": "sevdan olmasa öğretmen anonslu.mp3",
+        "exit": "Melodi4.mp3"
+    },
+    "volumes": {
+        "student": 1,
+        "teacher": 0.96,
+        "exit": 1
+    },
+    "schedule": {
+        "monday": [
+            {
+                "name": "1. Ders",
+                "student": "08:40",
+                "teacher": "08:50",
+                "exit": "09:30"
+            },
+            {
+                "name": "2. Ders",
+                "student": "09:42",
+                "teacher": "09:45",
+                "exit": "10:25"
+            },
+            {
+                "name": "3. Ders",
+                "student": "10:32",
+                "teacher": "10:35",
+                "exit": "11:15"
+            },
+            {
+                "name": "4. Ders",
+                "student": "11:22",
+                "teacher": "11:25",
+                "exit": "12:05"
+            },
+            {
+                "name": "5. Ders",
+                "student": "12:35",
+                "teacher": "12:40",
+                "exit": "13:20"
+            },
+            {
+                "name": "6. Ders",
+                "student": "13:27",
+                "teacher": "13:30",
+                "exit": "14:10"
+            },
+            {
+                "name": "7. Ders",
+                "student": "14:17",
+                "teacher": "14:20",
+                "exit": "15:00"
+            },
+            {
+                "name": "8. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "9. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "10. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "11. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "12. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "13. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "14. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "15. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            }
+        ],
+        "tuesday": [
+            {
+                "name": "1. Ders",
+                "student": "08:40",
+                "teacher": "08:50",
+                "exit": "09:30"
+            },
+            {
+                "name": "2. Ders",
+                "student": "09:42",
+                "teacher": "09:45",
+                "exit": "10:25"
+            },
+            {
+                "name": "3. Ders",
+                "student": "10:32",
+                "teacher": "10:35",
+                "exit": "11:15"
+            },
+            {
+                "name": "4. Ders",
+                "student": "11:22",
+                "teacher": "11:25",
+                "exit": "12:05"
+            },
+            {
+                "name": "5. Ders",
+                "student": "12:35",
+                "teacher": "12:40",
+                "exit": "13:20"
+            },
+            {
+                "name": "6. Ders",
+                "student": "13:27",
+                "teacher": "13:30",
+                "exit": "14:10"
+            },
+            {
+                "name": "7. Ders",
+                "student": "14:17",
+                "teacher": "14:20",
+                "exit": "15:00"
+            },
+            {
+                "name": "8. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "9. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "10. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "11. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "12. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "13. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "14. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "15. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            }
+        ],
+        "wednesday": [
+            {
+                "name": "1. Ders",
+                "student": "08:40",
+                "teacher": "08:50",
+                "exit": "09:30"
+            },
+            {
+                "name": "2. Ders",
+                "student": "09:42",
+                "teacher": "09:45",
+                "exit": "10:25"
+            },
+            {
+                "name": "3. Ders",
+                "student": "10:32",
+                "teacher": "10:35",
+                "exit": "11:15"
+            },
+            {
+                "name": "4. Ders",
+                "student": "11:22",
+                "teacher": "11:25",
+                "exit": "12:05"
+            },
+            {
+                "name": "5. Ders",
+                "student": "12:35",
+                "teacher": "12:40",
+                "exit": "13:20"
+            },
+            {
+                "name": "6. Ders",
+                "student": "13:27",
+                "teacher": "13:30",
+                "exit": "14:10"
+            },
+            {
+                "name": "7. Ders",
+                "student": "14:17",
+                "teacher": "14:20",
+                "exit": "15:00"
+            },
+            {
+                "name": "8. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "9. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "10. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "11. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "12. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "13. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "14. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "15. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            }
+        ],
+        "thursday": [
+            {
+                "name": "1. Ders",
+                "student": "08:40",
+                "teacher": "08:50",
+                "exit": "09:30"
+            },
+            {
+                "name": "2. Ders",
+                "student": "09:42",
+                "teacher": "09:45",
+                "exit": "10:25"
+            },
+            {
+                "name": "3. Ders",
+                "student": "10:32",
+                "teacher": "10:35",
+                "exit": "11:15"
+            },
+            {
+                "name": "4. Ders",
+                "student": "11:22",
+                "teacher": "11:25",
+                "exit": "12:05"
+            },
+            {
+                "name": "5. Ders",
+                "student": "12:35",
+                "teacher": "12:40",
+                "exit": "13:20"
+            },
+            {
+                "name": "6. Ders",
+                "student": "13:27",
+                "teacher": "13:30",
+                "exit": "14:10"
+            },
+            {
+                "name": "7. Ders",
+                "student": "14:17",
+                "teacher": "14:20",
+                "exit": "15:00"
+            },
+            {
+                "name": "8. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "9. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "10. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "11. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "12. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "13. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "14. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "15. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            }
+        ],
+        "friday": [
+            {
+                "name": "1. Ders",
+                "student": "08:40",
+                "teacher": "08:50",
+                "exit": "09:30"
+            },
+            {
+                "name": "2. Ders",
+                "student": "09:42",
+                "teacher": "09:45",
+                "exit": "10:25"
+            },
+            {
+                "name": "3. Ders",
+                "student": "10:32",
+                "teacher": "10:35",
+                "exit": "11:15"
+            },
+            {
+                "name": "4. Ders",
+                "student": "11:22",
+                "teacher": "11:25",
+                "exit": "12:05"
+            },
+            {
+                "name": "5. Ders",
+                "student": "12:35",
+                "teacher": "12:40",
+                "exit": "13:20"
+            },
+            {
+                "name": "6. Ders",
+                "student": "13:27",
+                "teacher": "13:30",
+                "exit": "14:10"
+            },
+            {
+                "name": "7. Ders",
+                "student": "14:17",
+                "teacher": "14:20",
+                "exit": "15:00"
+            },
+            {
+                "name": "8. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "9. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "10. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "11. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "12. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "13. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "14. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "15. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            }
+        ],
+        "saturday": [
+            {
+                "name": "1. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "2. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "3. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "4. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "5. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "6. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "7. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "8. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "9. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "10. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "11. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "12. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "13. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "14. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "15. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            }
+        ],
+        "sunday": [
+            {
+                "name": "1. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "2. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "3. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "4. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "5. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "6. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "7. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "8. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "9. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "10. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "11. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "12. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "13. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "14. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            },
+            {
+                "name": "15. Ders",
+                "student": "",
+                "teacher": "",
+                "exit": ""
+            }
+        ]
+    },
+    "music_active": false,
+    "music_volume": 68,
+    "master_volume": 100,
+    "slide_active": false,
+    "slide_interval": 7
+}

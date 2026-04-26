@@ -1,0 +1,306 @@
+import customtkinter as ctk
+import datetime
+import os
+import glob
+import time
+import locale
+import random
+import subprocess
+from PIL import Image, ImageOps
+from scheduler import BellScheduler
+from config_manager import load_config, save_config
+from hizlimenu import HizliMenu
+from toren import TorenEkrani
+from ayar import AyarEkrani
+from dashboard import Dashboard
+from usb_manager import USBManager
+
+class OkulZiliApp(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+        try:
+            locale.setlocale(locale.LC_ALL, 'tr_TR.UTF-8')
+        except:
+            pass
+        
+        self.scheduler = BellScheduler()
+        self.current_usb_path = None
+        
+        self.conf = load_config()
+        self.system_enabled = self.conf.get("system_enabled", True)
+        self.music_active = self.conf.get("music_active", False)
+        self.slide_active = self.conf.get("slide_active", False)
+        
+        self.apply_theme(self.conf.get("theme", "beyaz"))
+        
+        self.container = ctk.CTkFrame(self)
+        self.container.pack(fill="both", expand=True)
+        
+        self.show_dashboard()
+        self.update_dashboard()
+        self.update_slider_info()
+        
+        self.after(200, lambda: self.attributes("-fullscreen", True))
+        self.bind("<Escape>", lambda e: self.attributes("-fullscreen", False))
+
+    def apply_theme(self, theme):
+        ctk.set_appearance_mode("dark" if theme == "koyu" else "light")
+        self.bg_color = ("#ffffff", "#242424")
+        self.text_fume = ("#333333", "#ffffff")
+        self.btn_pastel_green = "#77DD77"
+        self.btn_pastel_red = "#FF6961"
+        self.btn_pastel_blue = "#AEC6CF"
+        self.btn_pastel_gray = ("#CFCFC4", "#444444")
+
+    def tr_upper(self, text):
+        return text.replace("i", "İ").replace("ı", "I").upper()
+
+    def show_dashboard(self):
+        for w in self.container.winfo_children(): w.destroy()
+        self.container.grid_columnconfigure(0, weight=85, uniform="layout")
+        self.container.grid_columnconfigure(1, weight=15, uniform="layout")
+        self.container.grid_rowconfigure(0, weight=1)
+        self.dashboard_view = Dashboard(self.container, self.conf)
+        self.dashboard_view.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
+        self.menu = HizliMenu(self.container, self)
+        self.menu.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
+        self.update_sys_button_ui()
+        self.update_music_button_ui()
+        self.update_slide_button_ui()
+
+    def show_settings(self):
+        for w in self.container.winfo_children(): w.destroy()
+        self.view = AyarEkrani(self.container, self, self.conf)
+        self.view.pack(fill="both", expand=True)
+        self.update()
+
+    def show_ceremony(self):
+        for w in self.container.winfo_children(): w.destroy()
+        self.view = TorenEkrani(self.container, self)
+        self.view.pack(fill="both", expand=True)
+        self.update()
+
+    def toggle_system(self):
+        self.system_enabled = not self.system_enabled
+        self.update_sys_button_ui()
+        self.conf["system_enabled"] = self.system_enabled
+        save_config(self.conf)
+
+    def update_sys_button_ui(self):
+        if hasattr(self, 'menu'):
+            txt = "ZİL SİSTEMİ: AKTİF" if self.system_enabled else "ZİL SİSTEMİ: PASİF"
+            clr = self.btn_pastel_green if self.system_enabled else self.btn_pastel_red
+            self.menu.btn_sys_toggle.configure(text=txt, fg_color=clr)
+
+    def toggle_music(self):
+        self.music_active = not self.music_active
+        self.conf["music_active"] = self.music_active
+        save_config(self.conf)
+        self.update_music_button_ui()
+        if not self.music_active: self.scheduler.music_player.stop()
+
+    def update_music_button_ui(self):
+        if hasattr(self, 'menu'):
+            txt = "MÜZİK YAYINI: AÇIK" if self.music_active else "MÜZİK YAYINI: KAPALI"
+            clr = self.btn_pastel_green if self.music_active else self.btn_pastel_blue
+            self.menu.btn_music.configure(text=txt, fg_color=clr)
+
+    def toggle_slide(self):
+        self.slide_active = not self.slide_active
+        self.conf["slide_active"] = self.slide_active
+        save_config(self.conf)
+        self.update_slide_button_ui()
+        if self.slide_active and hasattr(self, 'dashboard_view'):
+            self.dashboard_view.refresh_slide_images()
+
+    def update_slide_button_ui(self):
+        if hasattr(self, 'menu') and hasattr(self.menu, 'btn_slide'):
+            txt = "SLAYT MODU: AÇIK" if self.slide_active else "SLAYT MODU: KAPALI"
+            clr = self.btn_pastel_green if self.slide_active else self.btn_pastel_blue
+            self.menu.btn_slide.configure(text=txt, fg_color=clr)
+
+    def get_system_volume(self):
+        try:
+            output = subprocess.check_output("pactl get-sink-volume @DEFAULT_SINK@", shell=True).decode()
+            if "/" in output:
+                vol = output.split("/")[1].strip().replace("%", "")
+                return int(vol)
+        except: pass
+        return self.conf.get("master_volume", 70)
+
+    def set_system_volume(self, value):
+        vol = int(value)
+        self.conf["master_volume"] = vol
+        self.scheduler.player.audio_set_volume(vol)
+        self.scheduler.music_player.audio_set_volume(vol)
+        try: os.system(f"pactl set-sink-volume @DEFAULT_SINK@ {vol}% > /dev/null 2>&1")
+        except: pass
+
+    def eject_usb(self):
+        """USB'yi mount noktası üzerinden cihaz kaynağını bularak güvenle ayırır."""
+        try:
+            user = os.getlogin() if hasattr(os, 'getlogin') else "pi"
+            usb_base = f"/media/{user}/"
+            mounts = glob.glob(os.path.join(usb_base, "*"))
+            if mounts:
+                for m in mounts:
+                    # Mount edilen cihazın blok adını (SOURCE) bulup unmount eder
+                    cmd = f"udisksctl unmount -b $(findmnt -nno SOURCE '{m}') > /dev/null 2>&1"
+                    os.system(cmd)
+                if hasattr(self, 'view') and isinstance(self.view, TorenEkrani):
+                    self.refresh_usb_list()
+        except: pass
+
+    def refresh_usb_list(self, target_path=None):
+        if hasattr(self, 'view') and isinstance(self.view, TorenEkrani):
+            for w in self.view.usb_scroll.winfo_children(): w.destroy()
+            try: user = os.getlogin() if hasattr(os, 'getlogin') else "pi"
+            except: user = "pi"
+            if target_path is None:
+                usb_base = f"/media/{user}/"
+                found_mounts = glob.glob(os.path.join(usb_base, "*"))
+                if not found_mounts:
+                    ctk.CTkLabel(self.view.usb_scroll, text="USB BELLEK BULUNAMADI", text_color="red").pack(pady=20)
+                    return
+                target_path = found_mounts[0]
+            self.current_usb_path = target_path
+            parent_dir = os.path.dirname(target_path)
+            if f"/media/{user}/" in parent_dir:
+                ctk.CTkButton(self.view.usb_scroll, text="[..] ÜST DİZİNE ÇIK", fg_color=self.btn_pastel_gray, text_color=self.text_fume,
+                              height=50, command=lambda p=parent_dir: self.refresh_usb_list(p)).pack(fill="x", pady=2, padx=5)
+            try:
+                items = sorted(os.listdir(target_path))
+                for item in items:
+                    full_path = os.path.join(target_path, item)
+                    if os.path.isdir(full_path):
+                        btn = ctk.CTkButton(self.view.usb_scroll, text=f"📁 {item}", anchor="w", height=50, fg_color=("#F0E68C", "#4D4615"), text_color=self.text_fume,
+                                            command=lambda p=full_path: self.refresh_usb_list(p))
+                        btn.pack(fill="x", pady=2, padx=5)
+                    elif item.lower().endswith(('.mp3', '.wav', '.ogg', '.m4a')):
+                        btn = ctk.CTkButton(self.view.usb_scroll, text=f"🎵 {item}", anchor="w", height=50, text_color=self.text_fume, 
+                                            command=lambda p=full_path, n=item: self.load_and_play(p, n))
+                        btn.pack(fill="x", pady=2, padx=5)
+            except: pass
+
+    def check_and_play_intermission_music(self, remaining):
+        try:
+            m, s = map(int, remaining.split(':'))
+            if (m * 60 + s) <= 60:
+                if self.scheduler.music_player.is_playing(): self.scheduler.music_player.stop()
+                return
+            if not self.scheduler.music_player.is_playing() and not self.scheduler.player.is_playing():
+                music_files = []
+                try: user = os.getlogin() if hasattr(os, 'getlogin') else "pi"
+                except: user = "pi"
+                usb_base = f"/media/{user}/"
+                found_mounts = glob.glob(os.path.join(usb_base, "*"))
+                if found_mounts:
+                    for mount in found_mounts:
+                        usb_path = os.path.join(mount, "muzikyayini", "*.*")
+                        usb_files = glob.glob(usb_path)
+                        if usb_files:
+                            music_files.extend(usb_files)
+                            break
+                if not music_files: music_files = glob.glob("sesler/muzikyayini/*.*")
+                valid_files = [f for f in music_files if f.lower().endswith(('.mp3', '.wav', '.ogg', '.m4a'))]
+                if valid_files:
+                    target = random.choice(valid_files)
+                    media = self.scheduler.instance.media_new(target)
+                    self.scheduler.music_player.set_media(media)
+                    self.scheduler.music_player.audio_set_volume(int(self.get_system_volume()))
+                    self.scheduler.music_player.play()
+        except: pass
+
+    def load_and_play(self, path, name):
+        try:
+            if self.scheduler.player.is_playing(): self.scheduler.player.stop()
+            media = self.scheduler.instance.media_new(path)
+            self.scheduler.player.set_media(media)
+            self.scheduler.player.play()
+            if hasattr(self, 'view') and hasattr(self.view, 'lbl_playing'):
+                self.view.lbl_playing.configure(text=f"Çalan: {name}")
+        except: pass
+
+    def play_siren(self):
+        p = "sesler/marslar/siren.wav"
+        if os.path.exists(p): self.load_and_play(p, "Siren")
+
+    def stop_and_reset(self):
+        self.scheduler.player.stop()
+        self.scheduler.music_player.stop()
+
+    def slide_music(self, val):
+        self.scheduler.player.set_position(val / 100)
+
+    def update_slider_info(self):
+        try:
+            if hasattr(self, 'view') and hasattr(self.view, 'music_slider') and self.scheduler.player.is_playing():
+                self.view.music_slider.set(self.scheduler.player.get_position() * 100)
+                c_time, t_len = self.scheduler.player.get_time(), self.scheduler.player.get_length()
+                if t_len > 0:
+                    self.view.lbl_time.configure(text=f"{time.strftime('%M:%S', time.gmtime(c_time/1000))} / {time.strftime('%M:%S', time.gmtime(t_len/1000))}")
+        except: pass
+        self.after(500, self.update_slider_info)
+
+    def load_selected_day_hours(self, choice):
+        if choice == "SEÇİNİZ": return
+        mapping = {"Pazartesi":"monday","Salı":"tuesday","Çarşamba":"wednesday","Perşembe":"thursday","Cuma":"friday","Cumartesi":"saturday","Pazar":"sunday"}
+        day_key = "monday" if choice in ["Hafta İçi", "Tüm Günler"] else mapping.get(choice, "monday")
+        selected_schedule = self.conf["schedule"].get(day_key, [])
+        if hasattr(self, 'view') and hasattr(self.view, 'hour_entries'):
+            for idx in range(15):
+                self.view.hour_entries[idx]["s"].delete(0, "end"); self.view.hour_entries[idx]["t"].delete(0, "end"); self.view.hour_entries[idx]["e"].delete(0, "end")
+                if idx < len(selected_schedule):
+                    self.view.hour_entries[idx]["s"].insert(0, selected_schedule[idx].get("student", ""))
+                    self.view.hour_entries[idx]["t"].insert(0, selected_schedule[idx].get("teacher", ""))
+                    self.view.hour_entries[idx]["e"].insert(0, selected_schedule[idx].get("exit", ""))
+
+    def save_all_settings(self):
+        v = self.view
+        self.conf["theme"] = v.opt_theme.get()
+        self.conf["announcement"] = v.ent_ann.get()
+        self.conf["school_name"] = v.ent_school.get()
+        self.conf["music_volume"] = int(v.music_vol_slider.get())
+        try: self.conf["slide_interval"] = int(v.slide_interval_slider.get())
+        except: pass
+        for k in ["clock", "timer", "date", "announcement", "lesson", "slide_info", "slide_bg"]:
+            try:
+                if k in v.visual_settings:
+                    self.conf["font_sizes"][k] = int(v.visual_settings[k]["size"].get())
+                    self.conf["custom_colors"][k] = v.visual_settings[k]["current_color"]
+            except: pass
+        for key in ["student", "teacher", "exit"]:
+            self.conf["current_sounds"][key] = v.sound_widgets[key][0].get()
+            self.conf["volumes"][key] = v.sound_widgets[key][1].get()
+        target = v.opt_apply.get()
+        if target != "SEÇİNİZ":
+            new_h = [{"name": e["name"], "student": e["s"].get(), "teacher": e["t"].get(), "exit": e["e"].get()} for e in v.hour_entries]
+            m_map = {"Pazartesi":["monday"],"Salı":["tuesday"],"Çarşamba":["wednesday"],"Perşembe":["thursday"],"Cuma":["friday"],"Cumartesi":["saturday"],"Pazar":["sunday"],"Hafta İçi":["monday","tuesday","wednesday","thursday","friday"],"Tüm Günler":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}
+            for d in m_map.get(target, []): self.conf["schedule"][d] = new_h
+        save_config(self.conf)
+        self.apply_theme(self.conf["theme"])
+        self.show_dashboard()
+
+    def update_dashboard(self):
+        now = datetime.datetime.now()
+        lesson_status, remaining, state = self.scheduler.get_status()
+        if hasattr(self, 'dashboard_view') and self.dashboard_view.winfo_exists():
+            self.dashboard_view.update_info(self.tr_upper(now.strftime("%d %B %A")), self.tr_upper(lesson_status), remaining, now.strftime("%H:%M:%S"))
+        if hasattr(self, 'menu') and hasattr(self.menu, 'lbl_side_day') and self.menu.lbl_side_day.winfo_exists():
+            if self.slide_active:
+                self.menu.lbl_side_day.configure(text=self.tr_upper(now.strftime("%d %B %A")))
+                self.menu.lbl_side_clock.configure(text=now.strftime("%H:%M:%S"))
+            else:
+                self.menu.lbl_side_day.configure(text="")
+                self.menu.lbl_side_clock.configure(text="")
+        if now.second == 0:
+            if self.system_enabled: self.scheduler.check_and_ring()
+        elif self.music_active and state == "intermission":
+            self.check_and_play_intermission_music(remaining)
+        elif self.scheduler.music_player.is_playing():
+            self.scheduler.music_player.stop()
+        self.after(1000, self.update_dashboard)
+
+if __name__ == "__main__":
+    app = OkulZiliApp()
+    app.mainloop()
