@@ -142,7 +142,8 @@ Veri kaybını ve sistem donmalarını önlemek için:
 
 ### 🖥️ Ekran ve Çözünürlük
 * **Optimize Edilen Çözünürlük:** Uygulama arayüzü **1080p (1920x1080)** standartlarına göre tasarlanmıştır.
-🔄 Otomatik Bakım (Zamanlanmış Yeniden Başlatma)
+  
+###🔄 Otomatik Bakım (Zamanlanmış Yeniden Başlatma)
 Sistemin uzun süreli açık kalması durumunda ses sürücülerinin (Pipewire/PulseAudio) kilitlenmesini önlemek ve belleği temizlemek için her sabah 07:00'de otomatik yeniden başlatma yapılması önerilir.
 
 Terminali açın ve aşağıdaki komutu yapıştırarak bu işlemi tek seferde sisteme kaydedin:
