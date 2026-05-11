@@ -142,3 +142,33 @@ Veri kaybını ve sistem donmalarını önlemek için:
 
 ### 🖥️ Ekran ve Çözünürlük
 * **Optimize Edilen Çözünürlük:** Uygulama arayüzü **1080p (1920x1080)** standartlarına göre tasarlanmıştır.
+🔄 Otomatik Bakım (Zamanlanmış Yeniden Başlatma)
+Sistemin uzun süreli açık kalması durumunda ses sürücülerinin (Pipewire/PulseAudio) kilitlenmesini önlemek ve belleği temizlemek için her sabah 07:00'de otomatik yeniden başlatma yapılması önerilir.
+
+Terminali açın ve aşağıdaki komutu yapıştırarak bu işlemi tek seferde sisteme kaydedin:
+
+```Bash
+(sudo crontab -l 2>/dev/null; echo "00 07 * * * /sbin/reboot") | sudo crontab -
+```
+Alternatif (Manuel) Yöntem:
+Komut çalışmazsa veya elle kontrol etmek isterseniz:
+
+Terminale 
+```Bash
+sudo crontab -e yazın.
+```
+Açılan dosyanın en altına şu satırı ekleyin:
+
+```Bash
+00 07 * * * /sbin/reboot
+```
+Dosyayı kaydedip çıkın (CTRL+O, Enter, CTRL+X).
+
+💡 Not: Bu işlemden sonra sistem her sabah 07:00'de yeniden başlayacak ve saat 09:00'a kadar ders bilgisi panelinde sizi "Günaydın" mesajı ile karşılayacaktır.
+
+Bu komut tam olarak ne yapıyor?
+sudo crontab -l: Mevcut zamanlanmış görevlerini listeler.
+
+echo "00 07 * * * /sbin/reboot": "Her gün saat 07:00'de reboot at" kuralını hazırlar.
+
+| sudo crontab -: Bu kuralı mevcut listenin sonuna ekleyip sisteme geri yükler.
