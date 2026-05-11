@@ -22,6 +22,18 @@ class BellScheduler:
 
         active_schedule = [l for l in schedule if l.get("student") and l.get("exit")]
         
+        if active_schedule:
+            try:
+                first_start = min(
+                    datetime.datetime.strptime(l["student"], "%H:%M").replace(year=now.year, month=now.month, day=now.day)
+                    for l in active_schedule
+                )
+                if now < first_start:
+                    diff = first_start - now
+                    return "GÜNAYDIN", f"{diff.seconds//60:02d}:{diff.seconds%60:02d}", "greeting"
+            except Exception:
+                pass
+
         for i, lesson in enumerate(active_schedule):
             try:
                 s_time = datetime.datetime.strptime(lesson["student"], "%H:%M").replace(year=now.year, month=now.month, day=now.day)
